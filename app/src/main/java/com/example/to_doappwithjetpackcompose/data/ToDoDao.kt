@@ -1,4 +1,4 @@
-package com.example.to_doappwithjetpackcompose.data.models
+package com.example.to_doappwithjetpackcompose.data
 
 import androidx.room.*
 import com.example.to_doappwithjetpackcompose.data.models.ToDoTask
