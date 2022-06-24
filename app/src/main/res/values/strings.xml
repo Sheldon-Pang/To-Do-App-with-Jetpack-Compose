@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">To-Do App with Jetpack Compose</string>
+    
+    <string name="add_button">Add Button</string>
 </resources>
