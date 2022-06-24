@@ -14,6 +14,9 @@ import com.example.to_doappwithjetpackcompose.R
 @Composable
 fun ListScreen(navigateToTaskScreens: (Int) -> Unit) {
     Scaffold(
+        topBar = {
+                 ListAppBar()
+        },
         content = {},
         floatingActionButton = {
             ListFab(navigateToTaskScreens = navigateToTaskScreens)
