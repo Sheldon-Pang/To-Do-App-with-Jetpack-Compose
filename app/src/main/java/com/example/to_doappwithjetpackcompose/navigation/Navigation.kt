@@ -6,10 +6,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.to_doappwithjetpackcompose.navigation.destinations.listComposable
 import com.example.to_doappwithjetpackcompose.navigation.destinations.taskComposable
+import com.example.to_doappwithjetpackcompose.ui.theme.viewmodels.SharedViewModels
 import com.example.to_doappwithjetpackcompose.util.Constants.LIST_SCREEN
 
 @Composable
-fun SetupNavigation(navController: NavHostController) {
+fun SetupNavigation(
+    navController: NavHostController,
+    sharedViewModels: SharedViewModels
+) {
     val screen = remember(navController) {
         Screens(navController = navController)
     }
@@ -18,7 +22,8 @@ fun SetupNavigation(navController: NavHostController) {
         startDestination = LIST_SCREEN
     ) {
         listComposable(
-            navigateToTaskScreens = screen.task
+            navigateToTaskScreens = screen.task,
+            sharedViewModels = sharedViewModels
         )
         taskComposable(
             navigateToListScreens = screen.list

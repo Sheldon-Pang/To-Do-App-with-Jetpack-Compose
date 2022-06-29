@@ -22,20 +22,42 @@ import com.example.to_doappwithjetpackcompose.R
 import com.example.to_doappwithjetpackcompose.components.PriorityItem
 import com.example.to_doappwithjetpackcompose.data.models.Priority
 import com.example.to_doappwithjetpackcompose.ui.theme.*
+import com.example.to_doappwithjetpackcompose.ui.theme.viewmodels.SharedViewModels
+import com.example.to_doappwithjetpackcompose.util.SearchAppBarState
+import com.example.to_doappwithjetpackcompose.util.TrailingIconState
 
 @Composable
-fun ListAppBar() {
-//    DefaultListAppBar(
-//        onSearchClicked = {},
-//        onSortClicked = {},
-//        onDeleteClicked = {}
-//    )
-    SearchAppBar(
-        text = "",
-        onTextChange = {},
-        onCloseClicked = {},
-        onSearchClicked = {}
-    )
+fun ListAppBar(
+    sharedViewModels: SharedViewModels,
+    searchAppBarState: SearchAppBarState,
+    searchTextState: String
+) {
+    when(searchAppBarState) {
+        SearchAppBarState.CLOSED -> {
+                DefaultListAppBar(
+                    onSearchClicked = {
+                        sharedViewModels.searchAppBarState.value =
+                            SearchAppBarState.OPENED
+                    },
+                    onSortClicked = {},
+                    onDeleteClicked = {}
+                )
+        }
+        else -> {
+            SearchAppBar(
+                text = searchTextState,
+                onTextChange = { newText ->
+                    sharedViewModels.searchTextState.value = newText
+                },
+                onCloseClicked = {
+                    sharedViewModels.searchAppBarState.value =
+                        SearchAppBarState.CLOSED
+                    sharedViewModels.searchTextState.value = ""
+                },
+                onSearchClicked = {}
+            )
+        }
+    }
 }
 
 @Composable
@@ -178,6 +200,10 @@ fun SearchAppBar(
     onCloseClicked: () -> Unit,
     onSearchClicked: (String) -> Unit
 ) {
+    var trailingIconState by remember {
+        mutableStateOf(TrailingIconState.READY_TO_DELETE)
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -215,7 +241,25 @@ fun SearchAppBar(
                 }
             },
             trailingIcon = {
-                IconButton(onClick = { onCloseClicked }) {
+                IconButton(
+                    onClick = {
+                        /* Need reimplementation */
+                        when(trailingIconState) {
+                            TrailingIconState.READY_TO_DELETE -> {
+                                onTextChange("")
+                                trailingIconState = TrailingIconState.READY_TO_CLOSE
+                            }
+                            TrailingIconState.READY_TO_CLOSE -> {
+                                if(text.isNotEmpty()) {
+                                    onTextChange("")
+                                }else {
+                                    onCloseClicked()
+                                    trailingIconState = TrailingIconState.READY_TO_DELETE
+                                }
+                            }
+                        }
+                    }
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "Close Icon",
