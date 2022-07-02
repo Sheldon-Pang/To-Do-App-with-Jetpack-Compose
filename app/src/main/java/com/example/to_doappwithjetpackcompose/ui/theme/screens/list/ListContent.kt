@@ -2,6 +2,8 @@ package com.example.to_doappwithjetpackcompose.ui.theme.screens.list
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -17,9 +19,25 @@ import com.example.to_doappwithjetpackcompose.data.models.Priority
 import com.example.to_doappwithjetpackcompose.data.models.ToDoTask
 import com.example.to_doappwithjetpackcompose.ui.theme.*
 
+@ExperimentalMaterialApi
 @Composable
-fun ListContent() {
-
+fun ListContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreens: (taskId: Int) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = tasks,
+            key = { task ->
+                task.id
+            }
+        ) { task ->
+            TaskItem(
+                toDoTask = task,
+                navigateToTaskScreens = navigateToTaskScreens
+            )
+        }
+    }
 }
 
 @ExperimentalMaterialApi
