@@ -19,11 +19,18 @@ import com.example.to_doappwithjetpackcompose.data.models.ToDoTask
 
 @Composable
 fun TaskAppBar(
+    selectedTask: ToDoTask?,
     navigateToListScreens: (Action) -> Unit
 ) {
-    NewTaskAppBar(
-        navigateToListScreens = navigateToListScreens
-    )
+    if (selectedTask == null) {
+        NewTaskAppBar(navigateToListScreens = navigateToListScreens)
+    } else {
+        ExistingTaskAppBar(
+            selectedTask = selectedTask,
+            navigateToListScreens = navigateToListScreens
+        )
+    }
+
 }
 
 @Composable
