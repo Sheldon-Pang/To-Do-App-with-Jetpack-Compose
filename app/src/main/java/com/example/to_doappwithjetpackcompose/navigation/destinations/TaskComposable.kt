@@ -1,5 +1,6 @@
 package com.example.to_doappwithjetpackcompose.navigation.destinations
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
@@ -26,8 +27,13 @@ fun NavGraphBuilder.taskComposable(
         sharedViewModels.getSelectedTask(taskId = taskId)
         val selectedTask by sharedViewModels.selectedTask.collectAsState()
 
+        LaunchedEffect(key1 = taskId) {
+            sharedViewModels.updateTaskFields(selectedTask = selectedTask)
+        }
+
         TaskScreen(
             selectedTask = selectedTask,
+            sharedViewModels = sharedViewModels,
             navigateToListScreens = navigateToListScreens
         )
     }
