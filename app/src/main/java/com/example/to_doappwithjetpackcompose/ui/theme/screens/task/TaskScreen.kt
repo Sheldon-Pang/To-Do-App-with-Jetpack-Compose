@@ -29,7 +29,7 @@ fun TaskScreen(
             TaskContent(
                 title = title,
                 onTitleChange = {
-                    sharedViewModels.title.value = it
+                    sharedViewModels.updateTitle(it)
                 },
                 description = description,
                 onDescriptionChange = {
