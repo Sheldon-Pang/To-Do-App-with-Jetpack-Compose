@@ -3,16 +3,15 @@ package com.example.to_doappwithjetpackcompose.ui.theme.screens.list
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.to_doappwithjetpackcompose.R
 import com.example.to_doappwithjetpackcompose.ui.theme.fabBackgroundColor
 import com.example.to_doappwithjetpackcompose.ui.theme.viewmodels.SharedViewModels
+import com.example.to_doappwithjetpackcompose.util.Action
 import com.example.to_doappwithjetpackcompose.util.SearchAppBarState
+import kotlinx.coroutines.launch
 import kotlin.math.log
 
 @ExperimentalMaterialApi
@@ -33,9 +32,17 @@ fun ListScreen(
     val searchTextState: String
             by sharedViewModels.searchTextState
 
-    sharedViewModels.handleDatabaseActions(action = action)
+    val scaffoldState = rememberScaffoldState()
+
+    DisplaySnackBar(
+        scaffoldState = scaffoldState,
+        handleDatabaseAction = { sharedViewModels.handleDatabaseActions(action = action) },
+        taskTitle = sharedViewModels.title.value,
+        action = action
+    )
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
                  ListAppBar(
                      sharedViewModels = sharedViewModels,
@@ -71,8 +78,24 @@ fun ListFab(navigateToTaskScreens: (taskId: Int) -> Unit) {
     }
 }
 
-//@Composable
-//@Preview
-//private fun ListScreenPreview() {
-//    ListScreen(navigateToTaskScreens = {})
-//}
+@Composable
+fun DisplaySnackBar(
+    scaffoldState: ScaffoldState,
+    handleDatabaseAction: () -> Unit,
+    taskTitle: String,
+    action: Action
+) {
+   handleDatabaseAction()
+
+   val scope = rememberCoroutineScope()
+    LaunchedEffect(key1 = action) {
+        if (action != Action.NO_ACTION) {
+            scope.launch {
+                val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
+                    message = "${action.name}: $taskTitle",
+                    actionLabel = "ok"
+                )
+            }
+        }
+    }
+}
