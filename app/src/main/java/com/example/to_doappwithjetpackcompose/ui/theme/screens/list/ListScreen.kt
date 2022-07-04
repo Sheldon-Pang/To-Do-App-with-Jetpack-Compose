@@ -12,7 +12,6 @@ import com.example.to_doappwithjetpackcompose.ui.theme.viewmodels.SharedViewMode
 import com.example.to_doappwithjetpackcompose.util.Action
 import com.example.to_doappwithjetpackcompose.util.SearchAppBarState
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 @ExperimentalMaterialApi
 @Composable
@@ -37,6 +36,9 @@ fun ListScreen(
     DisplaySnackBar(
         scaffoldState = scaffoldState,
         handleDatabaseAction = { sharedViewModels.handleDatabaseActions(action = action) },
+        onUndoClicked = {
+            sharedViewModels.action.value = it
+        },
         taskTitle = sharedViewModels.title.value,
         action = action
     )
@@ -82,6 +84,7 @@ fun ListFab(navigateToTaskScreens: (taskId: Int) -> Unit) {
 fun DisplaySnackBar(
     scaffoldState: ScaffoldState,
     handleDatabaseAction: () -> Unit,
+    onUndoClicked: (Action) -> Unit,
     taskTitle: String,
     action: Action
 ) {
@@ -93,9 +96,34 @@ fun DisplaySnackBar(
             scope.launch {
                 val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
                     message = "${action.name}: $taskTitle",
-                    actionLabel = "ok"
+                    actionLabel = setActionLabel(action = action)
+                )
+                undoDeletedTask(
+                    action = action,
+                    snackBarResult = snackBarResult,
+                    onUndoClicked = onUndoClicked
                 )
             }
         }
+    }
+}
+
+private fun setActionLabel(action: Action): String {
+    return if (action.name == "DELETE") {
+        "UNDO"
+    } else {
+        "OK"
+    }
+}
+
+private fun undoDeletedTask (
+    action: Action,
+    snackBarResult: SnackbarResult,
+    onUndoClicked: (Action) -> Unit
+) {
+    if (snackBarResult == SnackbarResult.ActionPerformed
+        && action == Action.DELETE
+    ) {
+        onUndoClicked(Action.UNDO)
     }
 }
