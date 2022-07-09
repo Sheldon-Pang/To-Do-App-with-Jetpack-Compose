@@ -64,6 +64,10 @@ fun ListScreen(
                       highPriorityTasks = highPriorityTasks,
                       sortState = sortState,
                       searchAppBarState = searchAppBarState,
+                      onSwipeToDelete = { action, task ->
+                          sharedViewModels.action.value = action
+                          sharedViewModels.updateTaskFields(selectedTask = task)
+                      },
                       navigateToTaskScreens = navigateToTaskScreens
                   )
         },
