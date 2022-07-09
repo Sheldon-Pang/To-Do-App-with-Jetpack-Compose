@@ -15,5 +15,5 @@ object Constants {
     const val REFERENCE_KEY = "sort_state"
 
     const val MAX_TITLE_LENGTH = 30
-    const val SPLASH_SCREEN_DELAY = 900L
+    const val SPLASH_SCREEN_DELAY = 1200L
 }
