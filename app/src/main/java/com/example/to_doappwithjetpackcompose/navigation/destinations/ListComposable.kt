@@ -6,7 +6,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.to_doappwithjetpackcompose.navigation.Screens
 import com.example.to_doappwithjetpackcompose.ui.theme.screens.list.ListScreen
 import com.example.to_doappwithjetpackcompose.ui.theme.viewmodels.SharedViewModels
 import com.example.to_doappwithjetpackcompose.util.Constants.LIST_ARGUMENT_KEY
