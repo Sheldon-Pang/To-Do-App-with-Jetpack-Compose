@@ -26,9 +26,9 @@
     <br />
     <a href="https://play.google.com/store/apps/details?id=com.MeowCat.to_doappwithjetpackcompose">Download in Play Store</a>
     ·
-    <a href="https://github.com/Sheldon_Pang/To-Do-App-with-Jetpack-Compose/issues">Report Bug</a>
+    <a href="https://github.com/Sheldon-Pang/To-Do-App-with-Jetpack-Compose/issues/new">Report Bug</a>
     ·
-    <a href="https://github.com/Sheldon_Pang/To-Do-App-with-Jetpack-Compose/issues">Request Feature</a>
+    <a href="https://github.com/Sheldon-Pang/To-Do-App-with-Jetpack-Compose/issues/new">Request Feature</a>
   </p>
 </div>
 
