@@ -2,6 +2,7 @@ package com.example.to_doappwithjetpackcompose.ui.theme.screens.list
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -102,6 +103,7 @@ fun HandleListContent(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("CoroutineCreationDuringComposition")
 @ExperimentalMaterialApi
 @Composable
